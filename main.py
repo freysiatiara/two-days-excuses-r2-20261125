@@ -39,6 +39,12 @@ def main():
     with open(path, "w", encoding="utf-8", newline="\n") as handle:
         handle.write(text + "\n")
     os.chmod(path, 0o644)
+    # Verify the write: read the file back and confirm it holds exactly
+    # the intended line plus its newline, nothing more or less.
+    with open(path, "r", encoding="utf-8", newline="") as handle:
+        written = handle.read()
+    if written != text + "\n":
+        raise SystemExit("verification failed: entry.txt does not match")
 
 
 if __name__ == "__main__":
